@@ -1,6 +1,7 @@
 import pygame
-import pyscroll.data
-import pytmx.util_pygame
+import pyscroll
+import pytmx
+from pygame import K_RIGHT
 
 from player import Player
 
@@ -24,16 +25,31 @@ class Game:
         self.player = Player(player_position.x, player_position.y)
 
         # dessiner le groupe de calques
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
+        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=3)
         self.group.add(self.player)
 
+    def handle_input(self):
+        pressed = pygame.key.get_pressed()
+
+        if pressed[pygame.K_UP]:
+            self.player.move_up()
+        elif pressed[pygame.K_DOWN]:
+            self.player.move_down()
+        elif pressed[pygame.K_LEFT]:
+            self.player.move_left()
+        elif pressed[K_RIGHT]:
+            self.player.move_right()
+
     def run(self):
+
+        clock = pygame.time.Clock
 
         #boucle du jeu
         running = True
 
         while running:
 
+            self.handle_input()
             self.group.update()
             self.group.center(self.player.rect.center)
             self.group.draw(self.screen)
@@ -42,5 +58,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+        clock.tick(360)
 
         pygame.quit()
