@@ -1,7 +1,7 @@
 import pygame
 import pyscroll
 import pytmx
-from pygame import K_RIGHT
+
 
 from player import Player
 
@@ -37,7 +37,7 @@ class Game:
             self.player.move_down()
         elif pressed[pygame.K_LEFT]:
             self.player.move_left()
-        elif pressed[K_RIGHT]:
+        elif pressed[pygame.K_RIGHT]:
             self.player.move_right()
 
     def run(self):
